@@ -2,15 +2,18 @@
 // <copyright file="TypedFactoryRegistration.cs" company="Developer In The Flow">
 //   © 2012-2014 Pedro Pombeiro
 // </copyright>
+// Extended by Abmes
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Unity.TypedFactories.Implementation
+namespace Abmes.Unity.TypedFactories.Implementation
 {
     using System;
 
     using Castle.DynamicProxy;
 
     using Microsoft.Practices.Unity;
+
+    using System.Linq;
 
     internal class TypedFactoryRegistration<TFactory> : TypedFactoryRegistration
         where TFactory : class
@@ -24,11 +27,15 @@ namespace Unity.TypedFactories.Implementation
         ///     The target Unity container on which to perform the registrations.
         /// </param>
         /// <param name="name">
-        ///     Name that will be used to request the type.
+        ///     Name that will be used to request the factory type.
+        /// </param>
+        /// <param name="injectionMembers">
+        ///     Additional injection members
         /// </param>
         public TypedFactoryRegistration(IUnityContainer container,
-                                        string name = null)
-            : base(container, typeof(TFactory), name)
+                                        string name = null,
+                                        params InjectionMember[] injectionMembers)
+            : base(container, typeof(TFactory), name, injectionMembers)
         {
         }
 
@@ -42,17 +49,22 @@ namespace Unity.TypedFactories.Implementation
         /// <typeparam name="TTo">
         /// The concrete type which the factory will instantiate.
         /// </typeparam>
-        public override void ForConcreteType<TTo>()
+        /// <param name="name">
+        /// The registration name of the concrete type which the factory will instantiate.
+        /// </param>
+        public override void ForConcreteType<TTo>(string name = null)
         {
-            var injectionFactory = new InjectionFactory(container => ProxyGenerator.CreateInterfaceProxyWithoutTarget<TFactory>(new GenericFactoryInterceptor<TTo>(container, this.Name)));
+            var injectionFactory = new InjectionFactory(container => ProxyGenerator.CreateInterfaceProxyWithoutTarget<TFactory>(new GenericFactoryInterceptor<TTo>(container, name)));
+
+            var newInjectionMembers = (new InjectionMember[] { injectionFactory }).Concat(this.InjectionMembers).ToArray();
 
             if (this.Name != null)
             {
-                this.Container.RegisterType<TFactory>(this.Name, injectionFactory);
+                this.Container.RegisterType<TFactory>(this.Name, newInjectionMembers);
             }
             else
             {
-                this.Container.RegisterType<TFactory>(injectionFactory);
+                this.Container.RegisterType<TFactory>(newInjectionMembers);
             }
         }
 
@@ -96,14 +108,19 @@ namespace Unity.TypedFactories.Implementation
         /// <param name="name">
         ///     Name that will be used to request the type.
         /// </param>
+        /// <param name="injectionMembers">
+        ///     Additional injection members
+        /// </param>
         public TypedFactoryRegistration(
             IUnityContainer container,
             Type factoryContractType,
-            string name = null)
+            string name = null,
+            params InjectionMember[] injectionMembers)
         {
             this.factoryContractType = factoryContractType;
             this.Container = container;
             this.Name = name;
+            this.InjectionMembers = injectionMembers;
         }
 
         #endregion
@@ -135,6 +152,11 @@ namespace Unity.TypedFactories.Implementation
         /// </summary>
         protected string Name { get; private set; }
 
+        /// <summary>
+        /// Gets the additional injection members.
+        /// </summary>
+        protected InjectionMember[] InjectionMembers  { get; private set; }
+
         #endregion
 
         #region Public Methods and Operators
@@ -145,17 +167,22 @@ namespace Unity.TypedFactories.Implementation
         /// <param name="toType">
         /// The concrete type which the factory will instantiate.
         /// </param>
-        public void ForConcreteType(Type toType)
+        /// <param name="name">
+        /// The registration name of the concrete type which the factory will instantiate.
+        /// </param>
+        public void ForConcreteType(Type toType, string name = null)
         {
-            var injectionFactory = new InjectionFactory(container => ProxyGenerator.CreateInterfaceProxyWithoutTarget(this.factoryContractType, new FactoryInterceptor(container, toType, this.Name)));
+            var injectionFactory = new InjectionFactory(container => ProxyGenerator.CreateInterfaceProxyWithoutTarget(this.factoryContractType, new FactoryInterceptor(container, toType, name)));
+
+            var newInjectionMembers = (new InjectionMember[] { injectionFactory }).Concat(this.InjectionMembers).ToArray();
 
             if (this.Name != null)
             {
-                this.Container.RegisterType(null, this.factoryContractType, this.Name, injectionFactory);
+                this.Container.RegisterType(null, this.factoryContractType, this.Name, newInjectionMembers);
             }
             else
             {
-                this.Container.RegisterType(null, this.factoryContractType, injectionFactory);
+                this.Container.RegisterType(null, this.factoryContractType, newInjectionMembers);
             }
         }
 
@@ -165,9 +192,12 @@ namespace Unity.TypedFactories.Implementation
         /// <typeparam name="TTo">
         /// The concrete type which the factory will instantiate.
         /// </typeparam>
-        public virtual void ForConcreteType<TTo>()
+        /// <param name="name">
+        /// The registration name of the concrete type which the factory will instantiate.
+        /// </param>
+        public virtual void ForConcreteType<TTo>(string name = null)
         {
-            this.ForConcreteType(typeof(TTo));
+            this.ForConcreteType(typeof(TTo), name);
         }
 
         #endregion

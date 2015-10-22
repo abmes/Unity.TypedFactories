@@ -1,4 +1,4 @@
-namespace Unity.TypedFactories.Implementation
+namespace Abmes.Unity.TypedFactories.Implementation
 {
     using System;
     using System.Linq;

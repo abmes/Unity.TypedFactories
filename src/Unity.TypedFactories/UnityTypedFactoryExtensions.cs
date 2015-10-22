@@ -2,15 +2,16 @@
 // <copyright file="UnityTypedFactoryExtensions.cs" company="Developer In The Flow">
 //   © 2012-2014 Pedro Pombeiro
 // </copyright>
+// Extended by Abmes
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Unity.TypedFactories
+namespace Abmes.Unity.TypedFactories
 {
     using System;
 
     using Microsoft.Practices.Unity;
 
-    using Unity.TypedFactories.Implementation;
+    using Abmes.Unity.TypedFactories.Implementation;
 
     /// <summary>
     /// Defines extension methods for providing custom typed factories based on a factory interface.
@@ -28,6 +29,9 @@ namespace Unity.TypedFactories
         /// <param name="container">
         /// The Unity container.
         /// </param>
+        /// <param name="injectionMembers">
+        ///     Additional injection members
+        /// </param>
         /// <returns>
         /// The holder object which facilitates the fluent interface.
         /// </returns>
@@ -35,14 +39,15 @@ namespace Unity.TypedFactories
         /// Thrown when the <paramref name="factoryContractType"/> does not represent an interface type.
         /// </exception>
         public static ITypedFactoryRegistration RegisterTypedFactory(this IUnityContainer container,
-                                                                     Type factoryContractType)
+                                                                     Type factoryContractType,
+                                                                     params InjectionMember[] injectionMembers)
         {
             if (!factoryContractType.IsInterface)
             {
                 throw new ArgumentException("The factory contract does not represent an interface!", "factoryContractType");
             }
 
-            var typedFactoryRegistration = new TypedFactoryRegistration(container, factoryContractType);
+            var typedFactoryRegistration = new TypedFactoryRegistration(container, factoryContractType, null, injectionMembers);
             return typedFactoryRegistration;
         }
 
@@ -55,10 +60,14 @@ namespace Unity.TypedFactories
         /// <param name="container">
         /// The Unity container.
         /// </param>
+        /// <param name="injectionMembers">
+        ///     Additional injection members
+        /// </param>
         /// <returns>
         /// The holder object which facilitates the fluent interface.
         /// </returns>
-        public static ITypedFactoryRegistration RegisterTypedFactory<TFactory>(this IUnityContainer container)
+        public static ITypedFactoryRegistration RegisterTypedFactory<TFactory>(this IUnityContainer container,
+                                                                               params InjectionMember[] injectionMembers)
             where TFactory : class
         {
             if (!typeof(TFactory).IsInterface)
@@ -66,7 +75,7 @@ namespace Unity.TypedFactories
                 throw new ArgumentException("The factory contract does not represent an interface!");
             }
 
-            var typedFactoryRegistration = new TypedFactoryRegistration<TFactory>(container);
+            var typedFactoryRegistration = new TypedFactoryRegistration<TFactory>(container, null, injectionMembers);
             return typedFactoryRegistration;
         }
 
@@ -80,16 +89,20 @@ namespace Unity.TypedFactories
         /// The Unity container.
         /// </param>
         /// <param name="name">
-        /// Name that will be used to request the type.
+        /// Name that will be used to request the factory type.
+        /// </param>
+        /// <param name="injectionMembers">
+        ///     Additional injection members
         /// </param>
         /// <returns>
         /// The holder object which facilitates the fluent interface.
         /// </returns>
         public static ITypedFactoryRegistration RegisterTypedFactory<TFactory>(this IUnityContainer container,
-                                                                               string name)
+                                                                               string name,
+                                                                               params InjectionMember[] injectionMembers)
             where TFactory : class
         {
-            return container.RegisterTypedFactory(typeof(TFactory), name);
+            return container.RegisterTypedFactory(typeof(TFactory), name, injectionMembers);
         }
 
         /// <summary>
@@ -102,16 +115,20 @@ namespace Unity.TypedFactories
         /// The factory interface.
         /// </param>
         /// <param name="name">
-        /// Name that will be used to request the type.
+        /// Name that will be used to request the factory type.
+        /// </param>
+        /// <param name="injectionMembers">
+        ///     Additional injection members
         /// </param>
         /// <returns>
         /// The holder object which facilitates the fluent interface.
         /// </returns>
         public static ITypedFactoryRegistration RegisterTypedFactory(this IUnityContainer container,
                                                                      Type factoryContractType,
-                                                                     string name)
+                                                                     string name,
+                                                                     params InjectionMember[] injectionMembers)
         {
-            var typedFactoryRegistration = new TypedFactoryRegistration(container, factoryContractType, name);
+            var typedFactoryRegistration = new TypedFactoryRegistration(container, factoryContractType, name, injectionMembers);
             return typedFactoryRegistration;
         }
 
@@ -132,9 +149,10 @@ namespace Unity.TypedFactories
         /// </returns>
         public static IUnityContainer RegisterTypedFactory(this IUnityContainer container,
                                                                      Type factoryContractType,
-                                                                     Type toType)
+                                                                     Type toType,
+                                                                     params InjectionMember[] injectionMembers)
         {
-            container.RegisterTypedFactory(factoryContractType).ForConcreteType(toType);
+            container.RegisterTypedFactory(factoryContractType, injectionMembers).ForConcreteType(toType);
             return container;
         }
 
@@ -153,10 +171,10 @@ namespace Unity.TypedFactories
         /// <returns>
         /// The Unity container to continue its fluent interface.
         /// </returns>
-        public static IUnityContainer RegisterTypedFactory<TFactory, TConcreteType>(this IUnityContainer container)
+        public static IUnityContainer RegisterTypedFactory<TFactory, TConcreteType>(this IUnityContainer container, params InjectionMember[] injectionMembers)
             where TFactory : class
         {
-            return container.RegisterTypedFactory(typeof(TFactory), typeof(TConcreteType));
+            return container.RegisterTypedFactory(typeof(TFactory), typeof(TConcreteType), injectionMembers);
         }
 
         /// <summary>
@@ -180,9 +198,10 @@ namespace Unity.TypedFactories
         public static IUnityContainer RegisterTypedFactory(this IUnityContainer container,
                                                                      Type factoryContractType,
                                                                      Type toType,
-                                                                     string name)
+                                                                     string name,
+                                                                     params InjectionMember[] injectionMembers)
         {
-            container.RegisterTypedFactory(factoryContractType, name).ForConcreteType(toType);
+            container.RegisterTypedFactory(factoryContractType, name, injectionMembers).ForConcreteType(toType);
             return container;
         }
 
@@ -205,10 +224,11 @@ namespace Unity.TypedFactories
         /// The Unity container to continue its fluent interface.
         /// </returns>
         public static IUnityContainer RegisterTypedFactory<TFactory, TConcreteType>(this IUnityContainer container,
-                                                                              string name)
+                                                                              string name,
+                                                                              params InjectionMember[] injectionMembers)
             where TFactory : class
         {
-            return container.RegisterTypedFactory(typeof(TFactory), typeof(TConcreteType), name);
+            return container.RegisterTypedFactory(typeof(TFactory), typeof(TConcreteType), name, injectionMembers);
         }
 
         #endregion

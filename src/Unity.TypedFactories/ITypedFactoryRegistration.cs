@@ -2,13 +2,12 @@
 // <copyright file="ITypedFactoryRegistration.cs" company="Developer In The Flow">
 //   © 2012-2014 Pedro Pombeiro
 // </copyright>
+// Extended by Abmes
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Unity.TypedFactories
+namespace Abmes.Unity.TypedFactories
 {
     using System;
-
-    using JetBrains.Annotations;
 
     using Microsoft.Practices.Unity;
 
@@ -22,7 +21,7 @@ namespace Unity.TypedFactories
         /// <summary>
         /// Gets the target Unity container on which to perform the registrations.
         /// </summary>
-        [PublicAPI]
+        //[PublicAPI]
         IUnityContainer Container { get; }
 
         #endregion
@@ -35,8 +34,11 @@ namespace Unity.TypedFactories
         /// <param name="toType">
         /// The concrete type which the factory will instantiate.
         /// </param>
-        [PublicAPI]
-        void ForConcreteType(Type toType);
+        /// <param name="name">
+        /// The registration name of the concrete type which the factory will instantiate.
+        /// </param>
+        //[PublicAPI]
+        void ForConcreteType(Type toType, string name = null);
 
         /// <summary>
         /// Defines the concrete type which the factory will create.
@@ -44,7 +46,7 @@ namespace Unity.TypedFactories
         /// <typeparam name="TTo">
         /// The concrete type which the factory will instantiate.
         /// </typeparam>
-        void ForConcreteType<TTo>();
+        void ForConcreteType<TTo>(string name = null);
 
         #endregion
     }
