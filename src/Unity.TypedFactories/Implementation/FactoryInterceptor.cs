@@ -3,17 +3,18 @@
 //   © 2012-2014 Pedro Pombeiro
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Castle.DynamicProxy;
+using Unity;
+using Unity.Exceptions;
+using Unity.Injection;
+using Unity.Resolution;
 
 namespace Abmes.Unity.TypedFactories.Implementation
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-
-    using Castle.DynamicProxy;
-
-    using Microsoft.Practices.Unity;
 
     /// <summary>
     /// Defines an <see cref="IInterceptor"/> implementation which implements the factory methods, by passing the method arguments by name into a specified concrete type's constructor.

@@ -3,13 +3,12 @@
 //   © 2012-2014 Pedro Pombeiro
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
+using System;
+using System.Reflection;
+using Unity.Exceptions;
 
 namespace Abmes.Unity.TypedFactories
 {
-    using System;
-    using System.Reflection;
-
-    using Microsoft.Practices.Unity;
 
     /// <summary>
     /// Exception thrown when the arguments supplied in a typed factory method do not fulfill the arguments required by a concrete class' constructors.

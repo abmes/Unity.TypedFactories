@@ -4,15 +4,13 @@
 // </copyright>
 // Extended by Abmes
 // --------------------------------------------------------------------------------------------------------------------
+using System;
+using Unity;
+using Abmes.Unity.TypedFactories.Implementation;
+using Unity.Registration;
 
 namespace Abmes.Unity.TypedFactories
 {
-    using System;
-
-    using Microsoft.Practices.Unity;
-
-    using Abmes.Unity.TypedFactories.Implementation;
-
     /// <summary>
     /// Defines extension methods for providing custom typed factories based on a factory interface.
     /// </summary>

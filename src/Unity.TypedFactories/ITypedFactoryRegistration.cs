@@ -4,13 +4,11 @@
 // </copyright>
 // Extended by Abmes
 // --------------------------------------------------------------------------------------------------------------------
+using System;
+using Unity;
 
 namespace Abmes.Unity.TypedFactories
 {
-    using System;
-
-    using Microsoft.Practices.Unity;
-
     /// <summary>
     /// Defines the contract for the fluent interface for registering typed factories.
     /// </summary>

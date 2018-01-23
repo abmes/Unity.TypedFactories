@@ -1,12 +1,10 @@
+using System;
+using System.Linq;
+using Castle.DynamicProxy;
+using Unity;
+
 namespace Abmes.Unity.TypedFactories.Implementation
 {
-    using System;
-    using System.Linq;
-
-    using Castle.DynamicProxy;
-
-    using Microsoft.Practices.Unity;
-
     /// <summary>
     /// Defines an <see cref="IInterceptor"/> implementation which implements the factory methods, by passing the method arguments by name into <see cref="TConcrete"/>'s constructor.
     /// </summary>

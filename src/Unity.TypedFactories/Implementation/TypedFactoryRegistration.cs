@@ -4,17 +4,15 @@
 // </copyright>
 // Extended by Abmes
 // --------------------------------------------------------------------------------------------------------------------
+using System;
+using Castle.DynamicProxy;
+using Unity;
+using System.Linq;
+using Unity.Registration;
+using Unity.Injection;
 
 namespace Abmes.Unity.TypedFactories.Implementation
 {
-    using System;
-
-    using Castle.DynamicProxy;
-
-    using Microsoft.Practices.Unity;
-
-    using System.Linq;
-
     internal class TypedFactoryRegistration<TFactory> : TypedFactoryRegistration
         where TFactory : class
     {
