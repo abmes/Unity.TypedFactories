@@ -31,3 +31,4 @@ packages/*/
 *.ncrunch*
 *.snk
 *.backup
+.vs
