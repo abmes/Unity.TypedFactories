@@ -10,10 +10,10 @@ if (Test-Path -Path bin)
 mkdir bin
 
 Copy-Item .\Unity.TypedFactories.nuspec bin
-mkdir bin\lib\net45
+mkdir bin\lib\netstandard2.0
 
 
-Copy-Item .\src\Unity.TypedFactories\bin\Release\Unity.TypedFactories.dll .\bin\lib\net45
+Copy-Item .\src\Unity.TypedFactories\bin\Release\Unity.TypedFactories.dll .\bin\lib\netstandard2.0
 
 $packageVersion = $env:PackageVersion
 

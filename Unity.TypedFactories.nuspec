@@ -4,14 +4,15 @@
     <id>Abmes.Unity.TypedFactories</id>
     <version>$version$</version>
     <authors>Abmes</authors>
-	<licenseUrl>https://github.com/abmes/Unity.TypedFactories/blob/master/license.txt</licenseUrl>
+	  <licenseUrl>https://github.com/abmes/Unity.TypedFactories/blob/master/license.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <title>Abmes Unity TypedFactories</title>
     <description>Automatic Factory functionality for the Unity IoC container</description>
     <projectUrl>https://github.com/abmes/Unity.TypedFactories</projectUrl>
     <iconUrl>https://en.gravatar.com/userimage/79846298/52cbbcdfa221ce4fea5ebea5928aa1e7.png</iconUrl>
     <copyright>Copyright 2018 Abmes</copyright>
-	<dependencies>
+	  <dependencies>
+      <group targetFramework=".NETStandard2.0" />
       <dependency id="Unity" version="5.6.0" />
       <dependency id="Castle.Core" version="4.2.1" />
     </dependencies>
