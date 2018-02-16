@@ -1,5 +1,4 @@
 #NuGet install src\Unity.TypedFactories\packages.config -OutputDirectory packages
-
 NuGet restore
 
 MsBuild Unity.TypedFactories.sln /property:Configuration=Release /verbosity:minimal
