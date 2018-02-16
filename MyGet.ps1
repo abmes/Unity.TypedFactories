@@ -1,6 +1,6 @@
-NuGet install src\Unity.TypedFactories\packages.config -OutputDirectory packages
+#NuGet install src\Unity.TypedFactories\packages.config -OutputDirectory packages
 
-MsBuild .\src\Unity.TypedFactories\Unity.TypedFactories.csproj /verbosity:minimal
+MsBuild Unity.TypedFactories.sln /property:Configuration=Release /verbosity:minimal
 
 if (Test-Path -Path bin)
 {
@@ -13,7 +13,7 @@ Copy-Item .\Unity.TypedFactories.nuspec bin
 mkdir bin\lib\netstandard2.0
 
 
-Copy-Item .\src\Unity.TypedFactories\bin\Release\Unity.TypedFactories.dll .\bin\lib\netstandard2.0
+Copy-Item .\src\Unity.TypedFactories\bin\Release\netstandard2.0\Unity.TypedFactories.dll .\bin\lib\netstandard2.0
 
 $packageVersion = $env:PackageVersion
 
