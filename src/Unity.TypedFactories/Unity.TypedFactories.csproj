@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Abmes</Authors>
+    <Company>Abmes</Company>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseUrl>https://github.com/abmes/Unity.TypedFactories/blob/master/license.txt</PackageLicenseUrl>
+    <Description>Automatic Factory functionality for the Unity IoC container</Description>
+    <Product>Abmes Unity TypedFactories</Product>
+    <PackageProjectUrl>https://github.com/abmes/Unity.TypedFactories</PackageProjectUrl>
+    <PackageIconUrl>https://en.gravatar.com/userimage/79846298/52cbbcdfa221ce4fea5ebea5928aa1e7.png</PackageIconUrl>
+    <Copyright>Copyright 2018 Abmes</Copyright>
+    <RepositoryUrl>https://github.com/abmes/Unity.TypedFactories</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
