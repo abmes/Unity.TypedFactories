@@ -12,6 +12,7 @@
     <PackageIconUrl>https://en.gravatar.com/userimage/79846298/52cbbcdfa221ce4fea5ebea5928aa1e7.png</PackageIconUrl>
     <Copyright>Copyright 2018 Abmes</Copyright>
     <RepositoryUrl>https://github.com/abmes/Unity.TypedFactories</RepositoryUrl>
+    <PackageId>Abmes.Unity.TypedFactories</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
